@@ -49,11 +49,14 @@ wireguard-docker is configured entirely through environment variables.
       I_PRIVATEKEY
     <td>
       8NkTeTAM5KUwa4vJ4qOQrhJjBBf4bQX3Yl+srl3O0Ek=
+      <hr>
+      /run/secrets/wg0_priv
     <td>
     <td>
       I_PRIVATEKEY is the private-key of the interface.
       <br>
-      It has to be a base64-encoded private-key, like one generated from <code>wg genkey</code>.
+      It has to be a base64-encoded private-key, like one generated from <code>wg genkey</code>
+      or the path to a file, storing such a key.
   <tr>
     <td>
       I_LISTENPORT
