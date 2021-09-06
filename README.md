@@ -31,8 +31,6 @@ wireguard-docker is configured entirely through environment variables.
     <th>
       Default value
     <th>
-      Mandatory
-    <th>
       Description
   <tr>
     <td>
@@ -41,17 +39,16 @@ wireguard-docker is configured entirely through environment variables.
       wg0
     <td>
     <td>
-      X
-    <td>
       I_NAME is the name of the wireguard interface.
       <br>
       It has to match the pattern <code>^[0-9a-zA-Z_-]+$</code>.
+      <br>
+      I_NAME has to be set.
   <tr>
     <td>
       I_PRIVATEKEY
     <td>
       8NkTeTAM5KUwa4vJ4qOQrhJjBBf4bQX3Yl+srl3O0Ek=
-    <td>
     <td>
     <td>
       I_PRIVATEKEY is the private-key of the interface.
@@ -64,7 +61,6 @@ wireguard-docker is configured entirely through environment variables.
       51820
     <td>
     <td>
-    <td>
       I_LISTENPORT is the port on which the interface should listen for its peers.
       <br>
       Its an integer between <b>0</b> and <b>65535</b>.
@@ -73,7 +69,6 @@ wireguard-docker is configured entirely through environment variables.
       I_FWMARK
     <td>
       644
-    <td>
     <td>
     <td>
       I_FWMARK is a firewall-marking for outgoing packets.
@@ -87,7 +82,6 @@ wireguard-docker is configured entirely through environment variables.
     <td>
       1
     <td>
-    <td>
       If set, I_CREATE gives the container the permission to create a new wireguard interface with the name <b>I_NAME</b>.
   <tr>
     <td>
@@ -96,8 +90,15 @@ wireguard-docker is configured entirely through environment variables.
       1
     <td>
     <td>
-    <td>
       If set, I_REUSE give the container the permission, to reuse an already existing wireguard interface, called <b>I_NAME</b>.
+  <tr>
+    <td>
+      I_NODESTROY
+    <td>
+      1
+    <td>
+    <td>
+      If set, I_NODESTROY skips the destruction of the wireguard interface, after the container gets shut down.
 </table>
 
 ### Peers
