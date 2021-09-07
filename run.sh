@@ -149,6 +149,14 @@ for p in $PEERS; do
     _addConfigLine "PublicKey=${pub}"
     psk="$(_getVar "P_${p}_PSK")"
     if [ ! "$psk" = '' ]; then
+        if [ -e "$psk" ]; then
+            x="$(cat "$psk" 2>&1)"
+            if [ $? -ne 0 ]; then
+                _log 'FATAL' "peer ${p}" 'cant read preshared-key' "$x"
+                exit 1
+            fi
+            psk="$x"
+        fi
         x="$(echo "$psk" | wg pubkey 2>&1)"
         if [ $? -ne 0 ]; then
             _log 'FATAL' "peer ${p}" "invalid P_${p}_PSK" "$x"
