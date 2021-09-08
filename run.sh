@@ -219,16 +219,16 @@ fi
 _log 'OK' 'interface-options validated'
 
 create='true'
-if [ "$I_CREATE" = '' ]; then
+if [ "$I_CREATE" = '' ] || [ "$I_CREATE" = '0' ]; then
     create='false'
 fi
 reuse='true'
-if [ "$I_REUSE" = '' ]; then
+if [ "$I_REUSE" = '' ] || [ "$I_REUSE" = '0' ]; then
     reuse='false'
 fi
 _log 'INFO' 'initialising interface' "Create=${create}" "Reuse=${reuse}"
 
-if [ "$I_CREATE" = '' ] && [ "$I_REUSE" = '' ]; then
+if [ "$create" = 'false' ] && [ "$reuse" = 'false' ]; then
     _log 'FATAL' 'cant initialize interface' 'create/reuse interface not permitted'
     exit 1
 fi

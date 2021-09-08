@@ -28,4 +28,4 @@ ALPINE_VERSION="$(cat Dockerfile |
                   sed 's|^FROM\s||g' |
                   sed 's|:|-|g')"
 
-docker build -t "thosebeans/wireguard-docker:${VERSION}-${ALPINE_VERSION}" .
+docker build --force-rm -t "thosebeans/wireguard-docker:${VERSION}-${ALPINE_VERSION}" .
