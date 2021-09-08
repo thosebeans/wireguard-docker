@@ -49,11 +49,14 @@ wireguard-docker is configured entirely through environment variables.
       I_PRIVATEKEY
     <td>
       8NkTeTAM5KUwa4vJ4qOQrhJjBBf4bQX3Yl+srl3O0Ek=
+      <hr>
+      /run/secrets/wg0_priv
     <td>
     <td>
       I_PRIVATEKEY is the private-key of the interface.
       <br>
-      It has to be a base64-encoded private-key, like one generated from <code>wg genkey</code>.
+      It has to be a base64-encoded private-key, like one generated from <code>wg genkey</code>
+      or the path to a file, storing such a key.
   <tr>
     <td>
       I_LISTENPORT
@@ -129,10 +132,13 @@ Example: `P_chris_PUBK=pea3swDlkV7Db1OIF9LK2bDSR0HhR+g7TS3Es4c1pWE=`
       P_ZZZ_PSK
     <td>
       t8QXS7CsF4YPq27GmfEHTURyY6IgCaYzdziRN+WF32g=
+      <hr>
+       /run/secrets/wg0_psk
     <td>
       P_ZZZ_PSK is the preshared-key of the peer.
       <br>
-      It has to be a bas64-encoded public-key, like the ones created by <code>wg genpsk</code>.
+      It has to be a base64-encoded preshared-key, like one generated from <code>wg genpsk</code>
+      or the path to a file, storing such a key.
   <tr>
     <td>
       P_ZZZ_IPS
