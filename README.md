@@ -120,15 +120,15 @@ Example: `P_chris_PUBK=pea3swDlkV7Db1OIF9LK2bDSR0HhR+g7TS3Es4c1pWE=`
       Description
   <tr>
     <td>
-      P_ZZZ_PUBK
+      P_ZZZ_PUB
     <td>
       pea3swDlkV7Db1OIF9LK2bDSR0HhR+g7TS3Es4c1pWE=
     <td>
-      P_ZZZ_PUBK is the public-key of the peer.
+      P_ZZZ_PUB is the public-key of the peer.
       <br>
       It has to be a bas64-encoded public-key, like the ones created by <code>wg pubkey</code>.
       <br>
-      P_ZZZ_PUBK has to be present for a peer to be recognized by the container.
+      P_ZZZ_PUB has to be present for a peer to be recognized by the container.
   <tr>
     <td>
       P_ZZZ_PSK
