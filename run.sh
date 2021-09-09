@@ -251,17 +251,19 @@ fi
 
 _log 'OK' 'interface-options validated'
 
-create='true'
-if [ "$I_CREATE" = '' ] || [ "$I_CREATE" = '0' ]; then
-    create='false'
+create='1'
+if [ "$I_CREATE" = '' ] || [ "$I_CREATE" -eq '0' ]; then
+    create='0'
 fi
-reuse='true'
-if [ "$I_REUSE" = '' ] || [ "$I_REUSE" = '0' ]; then
-    reuse='false'
+reuse='1'
+if [ "$I_REUSE" = '' ] || [ "$I_REUSE" -eq '0' ]; then
+    reuse='0'
 fi
-_log 'INFO' 'initialising interface' "Create=${create}" "Reuse=${reuse}"
+_log 'INFO' 'initialising interface' \
+    "Create=$(echo "$create" | sed 's|0|false|g' | sed 's|1|true|g')" \
+    "Reuse=$(echo "$reuse" | sed 's|0|false|g' | sed 's|1|true|g')"
 
-if [ "$create" = 'false' ] && [ "$reuse" = 'false' ]; then
+if [ "$create" -ne 1 ] && [ "$reuse" -ne 1 ]; then
     _log 'FATAL' 'cant initialize interface' 'create/reuse interface not permitted'
     exit 1
 fi
@@ -274,7 +276,7 @@ else
 fi
 
 if [ -e "/sys/class/net/${I_NAME}" ]; then
-    if [ "$I_REUSE" = '' ]; then
+    if [ "$reuse" -eq 0 ]; then
         _log 'FATAL' "cant create ${I_NAME}" "${I_NAME} already exist"
         exit 1
     fi
@@ -285,7 +287,7 @@ if [ -e "/sys/class/net/${I_NAME}" ]; then
     fi
     _log 'OK' "reusing ${I_NAME}"
 else
-    if [ "$I_CREATE" = '' ]; then
+    if [ "$create" -eq 0 ]; then
         _log 'FATAL' "cant create ${I_NAME}" 'creation not allowed'
         exit 1
     fi
