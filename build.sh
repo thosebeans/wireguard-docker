@@ -20,7 +20,7 @@ if [ -e .git ]; then
     fi
 else
     VERSION="$(basename "$(pwd)" |
-               grep 'v[0-9.]\+$')"
+               grep 'v[0-9.-]\+$')"
 fi
 
 ALPINE_VERSION="$(cat Dockerfile |
