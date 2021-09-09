@@ -266,6 +266,13 @@ if [ "$create" = 'false' ] && [ "$reuse" = 'false' ]; then
     exit 1
 fi
 
+x="$(modprobe wireguard 2>&1)"
+if [ $? -ne 0 ]; then
+    _log 'ERROR' 'loading wireguard module' "$x"
+else
+    _log 'OK' 'wireguard module loaded'
+fi
+
 if [ -e "/sys/class/net/${I_NAME}" ]; then
     if [ "$I_REUSE" = '' ]; then
         _log 'FATAL' "cant create ${I_NAME}" "${I_NAME} already exist"
