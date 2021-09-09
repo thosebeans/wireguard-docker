@@ -10,5 +10,5 @@ ADD run.sh /run.sh
 CMD /run.sh
 
 ENV I_CREATE=1
-ENV I_REUSE=""
-ENV I_NODESTROY=""
+ENV I_REUSE=0
+ENV I_NODESTROY=0
