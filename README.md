@@ -85,23 +85,25 @@ wireguard-docker is configured entirely through environment variables.
     <td>
       1
     <td>
-      If set, I_CREATE gives the container the permission to create a new wireguard interface with the name <b>I_NAME</b>.
+      If set and <b>0</b>, I_CREATE gives the container the permission to create a new wireguard interface with the name <b>I_NAME</b>.
   <tr>
     <td>
       I_REUSE
     <td>
       1
     <td>
+      0
     <td>
-      If set, I_REUSE give the container the permission, to reuse an already existing wireguard interface, called <b>I_NAME</b>.
+      If set and <b>0</b>, I_REUSE give the container the permission, to reuse an already existing wireguard interface, called <b>I_NAME</b>.
   <tr>
     <td>
       I_NODESTROY
     <td>
       1
     <td>
+      0
     <td>
-      If set, I_NODESTROY skips the destruction of the wireguard interface, after the container gets shut down.
+      If set and not <b>0</b>, I_NODESTROY skips the destruction of the wireguard interface, after the container gets shut down.
 </table>
 
 ### Peers
