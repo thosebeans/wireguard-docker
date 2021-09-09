@@ -104,7 +104,7 @@ _getVar () {
 # _finish deletes the wireguard-interface, if I_NODESTROY is not set.
 _finish () {
     _log 'OK' "shutting down container"
-    if [ ! "$I_NODESTROY" = '' ]; then
+    if [ ! "$I_NODESTROY" = '' ] || [ "$I_NODESTROY" -ne 0 ]; then
         exit 0
     fi
     _log 'OK' "destroying ${I_NAME}"
