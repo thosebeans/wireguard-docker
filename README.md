@@ -165,3 +165,30 @@ Example: `P_chris_PUBK=pea3swDlkV7Db1OIF9LK2bDSR0HhR+g7TS3Es4c1pWE=`
       <br>
       P_ZZZ_PKA has to be an integer value between <b>0</b> and <b>65535</b>.
 </table>
+
+## Troubleshooting
+
+### RTNETLINK answers: Operation not permitted
+
+#### Problem
+      
+The container doesn't have the capabilities to do any network-manipulation.
+
+#### Solution
+
+Add the capability `CAP_NET_ADMIN`.
+      
+### RTNETLINK answers: Not supported
+      
+#### Problem
+      
+The wireguard kernel-module isn't loaded.
+      
+#### Solution 1
+
+Load the `wireguard` module before starting the container.
+      
+#### Solution 2
+      
+Bind `/lib/modules` to `/lib/modules` into the container and run the container in __priviliged mode__.
+The container will try to load the module on startup.
