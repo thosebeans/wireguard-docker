@@ -1,54 +1,10 @@
 #!/usr/bin/env sh
 
-_log () (
-    i=2
-    m=''
-    while [ $i -le "$#" ]; do
-        if [ $i -eq 2 ]; then
-            m="$2"
-        else
-            m="${m}, "
-            eval "m=\"\${m}\$${i}\""
-        fi
-        i=$((i + 1))
-    done
-    printf '%s: %s: %s\n' \
-        "$(date "+%Y-%m-%d %H-%M-%S")" \
-        "$1" \
-        "$m"
-)
+#############
+# constants #
+#############
 
-CONFIG=''
-
-_addConfigLine () {
-    CONFIG="${CONFIG}${1};"
-}
-
-_getConfig () {
-    echo "$CONFIG" | sed 's|;|\n|g'
-}
-
-_hasEnv () {
-    if env | grep "^${1}=" >/dev/null; then
-        return 0
-    fi
-    return 1
-}
-
-_getVar () {
-    eval "echo \"\$${1}\""
-}
-
-_finish () {
-    _log 'OK' "shutting down container"
-    if [ ! "$I_NODESTROY" = '' ]; then
-        exit 0
-    fi
-    _log 'OK' "destroying ${I_NAME}"
-    ip link del "$I_NAME" 1>/dev/null 2>/dev/null
-    exit 0
-}
-
+# REGEX_IP4 matches all valid IPv4 addresses.
 REGEX_IP4='
 ((
 ((([01]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))\.){3}
@@ -60,6 +16,7 @@ REGEX_IP4='
 
 REGEX_IP4="$(echo "$REGEX_IP4" | tr -d '\n')"
 
+# REGEX_IP6 matches all valid IPv6 addresses.
 REGEX_IP6='
 ((
 (([0-9a-fA-F]{1,4}\:){7}[0-9a-fA-F]{1,4})|
@@ -78,10 +35,86 @@ REGEX_IP6='
 
 REGEX_IP6="$(echo "$REGEX_IP6" | tr -d '\n')"
 
+# REGEX_I_ADDRESS matches a comma-seperated list of IPv4/IPv6 addresses.
 REGEX_I_ADDRESS="^\s*(${REGEX_IP4}|${REGEX_IP6})(\s*,\s*(${REGEX_IP4}|${REGEX_IP6}))*\s*$"
 
 REGEX_P_IPS="$REGEX_I_ADDRESS"
 
+
+####################
+# global variables #
+####################
+
+# CONFIG stores the templated configuration for the wireguard-device.
+# CONFIG is modified through _addConfigLine
+CONFIG=''
+
+#############
+# functions #
+#############
+
+# _log prints a log-output.
+# _log writes a timestamp, info (INFO, OK, ERROR, FATAL) and multiple messages.
+# $1=STATUs $2..*=MESSAGES
+_log () (
+    i=2
+    m=''
+    while [ $i -le "$#" ]; do
+        if [ $i -eq 2 ]; then
+            m="$2"
+        else
+            m="${m}, "
+            eval "m=\"\${m}\$${i}\""
+        fi
+        i=$((i + 1))
+    done
+    printf '%s: %s: %s\n' \
+        "$(date "+%Y-%m-%d %H-%M-%S")" \
+        "$1" \
+        "$m"
+)
+
+# _addConfigLine adds a line to CONFIG.
+# $1=LINECONTENT
+_addConfigLine () {
+    CONFIG="${CONFIG}${1};"
+}
+
+# _getConfig returns the usable config from CONFIG.
+_getConfig () {
+    echo "$CONFIG" | sed 's|;|\n|g'
+}
+
+# _hasEnv returns if an env-variable exists.
+# $1=VARNAME
+_hasEnv () {
+    if env | grep "^${1}=" >/dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+# _getVar returns the content of a variable.
+# $1=VARNAME
+_getVar () {
+    eval "echo \"\$${1}\""
+}
+
+# _finish is the cleanup-function.
+# _finish deletes the wireguard-interface, if I_NODESTROY is not set.
+_finish () {
+    _log 'OK' "shutting down container"
+    if [ ! "$I_NODESTROY" = '' ]; then
+        exit 0
+    fi
+    _log 'OK' "destroying ${I_NAME}"
+    ip link del "$I_NAME" 1>/dev/null 2>/dev/null
+    exit 0
+}
+
+########
+# main #
+########
 
 _log 'INFO' "starting container $(hostname)"
 
