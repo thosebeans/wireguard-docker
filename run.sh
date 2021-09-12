@@ -166,6 +166,13 @@ if [ ! "$I_FWMARK" = '' ]; then
     _log 'OK' "FwMark set to ${I_FWMARK}"
 fi
 
+if [ ! "$I_MTU" = '' ]; then
+    if ! echo "$I_MTU" | grep '^[0-9]\+$' >/dev/null; then
+        _log 'FATAL' "invalid MTU" "$I_MTU"
+        exit 1
+    fi
+fi
+
 PEERS="$(env |
          grep -o '^P_[0-9a-zA-Z]\+_PUB=' |
          sed 's|_PUB=$||g' |
@@ -364,6 +371,18 @@ for a in $ADDR; do
         fi
     fi
 done
+
+if [ ! "$I_MTU" = '' ]; then
+    mtu="$I_MTU"
+else
+    mtu="$(ip link show "$I_NAME" |
+           grep -o 'mtu\s[0-9]\+' |
+           sed 's|mtu\s||g')"
+fi
+x="$(ip link set mtu "$mtu" up dev "$I_NAME" 2>&1)"
+if [ $? -ne 0 ]; then
+    _log 'ERROR' "setting MTU" "$x"
+fi
 
 while true; do
     sleep 2
