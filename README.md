@@ -79,6 +79,28 @@ wireguard-docker is configured entirely through environment variables.
       Its an integer between <b>0</b> and <b>4294967295</b> or <b>off</b>(same as 0).
   <tr>
     <td>
+      I_ADDRESS
+    <td>
+      10.44.0.1/24,55::66/64
+    <td>
+    <td>
+      I_ADDRESS are the ip addresses of the interface.
+      <br>
+      I_ADDRESS has to be a comma sperated list of IPv4/IPv6 addresses.
+  <tr>
+    <td>
+      I_MTU
+    <td>
+      1420
+    <td>
+    <td>
+      I_MTU is the MTU of the interface.
+      <br>
+      I_MTU has to be an unsigned integer.
+      <br>
+      If not set, I_MTU is auto calculated.
+  <tr>
+    <td>
       I_CREATE
     <td>
       1
